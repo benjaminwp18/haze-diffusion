@@ -14,6 +14,7 @@ transform = transforms.Compose([
     transforms.Normalize((0.5,), (0.5,))
 ])
 
+print('Loading datasets')
 # Load the FashionMNIST training dataset (28x28 grayscale images)
 train_dataset = datasets.FashionMNIST(
     root='./data',
@@ -30,6 +31,7 @@ test_dataset = datasets.FashionMNIST(
     transform=transform
 )
 
+print('Making loaders')
 train_subset_indices = torch.randperm(len(train_dataset))[:200]
 test_subset_indices = torch.randperm(len(test_dataset))[:10]
 train_subset = Subset(train_dataset, train_subset_indices)
@@ -37,8 +39,7 @@ test_subset = Subset(test_dataset, test_subset_indices)
 train_loader = DataLoader(train_subset, batch_size=32, shuffle=True)
 val_loader = DataLoader(test_subset, batch_size=10, shuffle=False, drop_last=False)
 
-
-
+print('Making noise predictor')
 # Initialize the NoisePredictor for the DDPM model with parameters for grayscale images
 noise_predictor = NoisePredictor(
         in_channels=1,  # Single channel for grayscale images in the training data
@@ -70,6 +71,7 @@ metrics = Metrics(
     lpips_=True
 )
 
+print('Scheduling variance')
 # Initialize DDPM variance-scheduler for the noise schedule
 variance_scheduler_ddpm = VarianceSchedulerDDPM(
     num_steps=500,
@@ -79,11 +81,12 @@ variance_scheduler_ddpm = VarianceSchedulerDDPM(
     beta_method="linear"
 )
 
+print('Creating forward/backward passes')
 # Set up the forward and reverse diffusion process
 forward_ddpm = ForwardDDPM(variance_scheduler_ddpm)
 reverse_ddpm = ReverseDDPM(variance_scheduler_ddpm)
 
-
+print('Making trainer')
 # Configure the DDPM trainer for model training
 train_ddpm = TrainDDPM(
     noise_predictor=noise_predictor,
@@ -109,6 +112,7 @@ train_ddpm = TrainDDPM(
     use_compilation=False
 )
 
+print('Training')
 # start trining
 train_losses, best_val_loss = train_ddpm()
 
