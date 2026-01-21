@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Subset
 # Import required classes from the DDPM module of TorchDiff
-from torchdiff.ddpm import ForwardDDPM, ReverseDDPM, VarianceSchedulerDDPM, TrainDDPM,
+from torchdiff.ddpm import ForwardDDPM, ReverseDDPM, VarianceSchedulerDDPM, TrainDDPM
 # Import utility functions from the TorchDiff utils module
 from torchdiff.utils import NoisePredictor, Metrics
 
