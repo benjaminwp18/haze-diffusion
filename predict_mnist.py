@@ -4,7 +4,7 @@ from torchdiff.ddpm import ReverseDDPM, VarianceSchedulerDDPM, SampleDDPM
 # Import utility functions from the TorchDiff utils module
 from torchdiff.utils import NoisePredictor
 
-MODEL_PATH = 'test_ddpm/ddpm_epoch_6.pth'
+MODEL_PATH = 'test_ddpm/ddpm_epoch_48.pth'
 
 # Initialize DDPM variance-scheduler for the noise schedule
 variance_scheduler_ddpm = VarianceSchedulerDDPM(
@@ -17,16 +17,16 @@ variance_scheduler_ddpm = VarianceSchedulerDDPM(
 
 # Initialize a new NoisePredictor with the same architecture as the trained model
 new_noise_predictor = NoisePredictor(
-    in_channels=1,  # Single channel for grayscale images
-    down_channels=[16, 32],
-    mid_channels=[32, 32],
-    up_channels=[32, 16],
+    in_channels=1,  # Single channel for grayscale images in the training data
+    down_channels=[16, 32, 64, 128, 256],
+    mid_channels=[256, 256, 256, 256, 256],
+    up_channels=[256, 128, 64, 32, 16],
     down_sampling=[True, True],
-    time_embed_dim=32,
-    y_embed_dim=32,
-    num_down_blocks=2,
-    num_mid_blocks=2,
-    num_up_blocks=2,
+    time_embed_dim=0,
+    y_embed_dim=0,
+    num_down_blocks=5,
+    num_mid_blocks=5,
+    num_up_blocks=5,
     down_sampling_factor=2
 )
 

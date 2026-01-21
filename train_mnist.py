@@ -43,15 +43,15 @@ print('Making noise predictor')
 # Initialize the NoisePredictor for the DDPM model with parameters for grayscale images
 noise_predictor = NoisePredictor(
         in_channels=1,  # Single channel for grayscale images in the training data
-        down_channels=[16, 32],
-        mid_channels=[32, 32],
-        up_channels=[32, 16],
+        down_channels=[16, 32, 64, 128, 256],
+        mid_channels=[256, 256, 256, 256, 256],
+        up_channels=[256, 128, 64, 32, 16],
         down_sampling=[True, True],
-        time_embed_dim=32,
-        y_embed_dim=32,
-        num_down_blocks=2,
-        num_mid_blocks=2,
-        num_up_blocks=2,
+        time_embed_dim=0,
+        y_embed_dim=0,
+        num_down_blocks=5,
+        num_mid_blocks=5,
+        num_up_blocks=5,
         down_sampling_factor=2
 )
 
@@ -96,7 +96,7 @@ train_ddpm = TrainDDPM(
     optimizer=optimizer,
     objective=loss,
     val_loader=val_loader,
-    max_epochs=50,
+    max_epochs=48,
     device="cpu",
     conditional_model=None,
     metrics_=metrics,
